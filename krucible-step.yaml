@@ -71,16 +71,24 @@ spec:
       name: krucible/create-cluster
       image: krucible/codefresh-create-cluster-step
       commands:
-        - export CLUSTER_NAME=$(/home/codefresh-create-cluster-step)
+        - CLUSTER_NAME=$(/home/codefresh-create-cluster-step)
+        - export CLUSTER_NAME
         - cf_export CLUSTER_NAME
       environment:
-        "CODEFRESH_API_KEY=${{CODEFRESH_API_KEY}}"
-        "KRUCIBLE_ACCOUNT_ID=${{KRUCIBLE_ACCOUNT_ID}}"
-        "KRUCIBLE_API_KEY_ID=${{KRUCIBLE_API_KEY_ID}}"
-        "KRUCIBLE_API_KEY_SECRET=${{KRUCIBLE_API_KEY_SECRET}}"
-        "KRUCIBLE_CLUSTER_NAME=${{KRUCIBLE_CLUSTER_NAME}}"
-        "KRUCIBLE_CLUSTER_DURATION=${{KRUCIBLE_CLUSTER_DURATION}}"
-        "KRUCIBLE_SNAPSHOT_ID=${{KRUCIBLE_SNAPSHOT_ID}}"
+        - "CODEFRESH_API_KEY=${{CODEFRESH_API_KEY}}"
+        - "KRUCIBLE_ACCOUNT_ID=${{KRUCIBLE_ACCOUNT_ID}}"
+        - "KRUCIBLE_API_KEY_ID=${{KRUCIBLE_API_KEY_ID}}"
+        - "KRUCIBLE_API_KEY_SECRET=${{KRUCIBLE_API_KEY_SECRET}}"
+        - "KRUCIBLE_CLUSTER_NAME=${{KRUCIBLE_CLUSTER_NAME}}"
+        - "KRUCIBLE_CLUSTER_DURATION=${{KRUCIBLE_CLUSTER_DURATION}}"
+        - "KRUCIBLE_SNAPSHOT_ID=${{KRUCIBLE_SNAPSHOT_ID}}"
+
+      CODEFRESH_API_KEY: ${{CODEFRESH_API_KEY}}
+      KRUCIBLE_ACCOUNT_ID: ${{KRUCIBLE_ACCOUNT_ID}}
+      KRUCIBLE_API_KEY_ID: ${{KRUCIBLE_API_KEY_ID}}
+      KRUCIBLE_API_KEY_SECRET: ${{KRUCIBLE_API_KEY_SECRET}}
+      KRUCIBLE_CLUSTER_NAME: my-codefresh-cluster
+      KRUCIBLE_CLUSTER_DURATION: 1
   returns: |-
     {
       "definitions": {},
@@ -90,12 +98,11 @@ spec:
       "patterns": [],
       "required": [
         "CLUSTER_NAME"
-      ]
-      ,
+      ],
       "properties": {
         "CLUSTER_NAME": {
             "type": "string",
             "description": "The name of the created cluster in Codefresh"
-        },
+        }
       }
     }

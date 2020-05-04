@@ -37,6 +37,8 @@ func main() {
 	clusterDuration, err := strconv.Atoi(clusterDurationString)
 	if clusterDuration >= 1 && clusterDuration <= 6 && err == nil {
 		clusterConfig.DurationInHours = &clusterDuration
+	} else {
+		clusterConfig.DurationInHours = krucible.Permanent
 	}
 
 	cluster, clientset, err := krucibleClient.CreateCluster(clusterConfig)
