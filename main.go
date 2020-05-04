@@ -22,6 +22,11 @@ func getEnvVarOrDie(name string) string {
 }
 
 func main() {
+	codefreshToken, isSet := os.LookupEnv("CODEFRESH_API_KEY")
+	if !isSet {
+		panic("CODEFRESH_API_KEY not set")
+	}
+
 	krucibleClient := krucible.NewClient(krucible.ClientConfig{
 		AccountID:    getEnvVarOrDie("KRUCIBLE_ACCOUNT_ID"),
 		APIKeyId:     getEnvVarOrDie("KRUCIBLE_API_KEY_ID"),
@@ -29,7 +34,7 @@ func main() {
 	})
 
 	clusterConfig := krucible.CreateClusterConfig{
-		DisplayName: "my-codefresh-cluster",
+		DisplayName: getEnvVarOrDie("KRUCIBLE_CLUSTER_NAME"),
 		SnapshotID:  os.Getenv("KRUCIBLE_SNAPSHOT_ID"),
 	}
 
@@ -77,13 +82,9 @@ func main() {
 
 	token := secret.Data["token"]
 
-	codefreshToken, isSet := os.LookupEnv("CODEFRESH_TOKEN")
-	if !isSet {
-		panic("Token not set")
-	}
 	api := codefresh.NewCodefreshAPI("https://g.codefresh.io/", codefreshToken)
 	body, err := api.Create(cluster.ConnectionDetails.Server, cluster.ID, token, []byte(cluster.ConnectionDetails.CertificateAuthority), false)
-	fmt.Fprintln(os.Stderr, body)
+	fmt.Fprintln(os.Stderr, string(body))
 	fmt.Print(cluster.ID)
 	if err != nil {
 		panic(err)
