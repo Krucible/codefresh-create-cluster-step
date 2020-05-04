@@ -1,0 +1,101 @@
+version: '1.0'
+kind: step-type
+metadata:
+  name: krucible/create-cluster
+  isPublic: true
+  description: >-
+    The plugin creates a new Kubernetes cluster and adds it to your Codefresh account
+  sources:
+    - 'https://github.com/Krucible/codefresh-create-cluster-step'
+  stage: incubating
+  maintainers:
+    - name: Ben Elgar
+  categories:
+    - deployment
+  official: false
+  tags: []
+  icon:
+    type: svg
+    url: https://usekrucible.com/krucible-logo.svg
+    background: '#ffffff'
+  latest: true
+  version: 1.0.0
+spec:
+  arguments: |-
+    {
+        "definitions": {},
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "additionalProperties": false,
+        "patterns": [],
+        "required": [
+          "CODEFRESH_API_KEY",
+          "KRUCIBLE_ACCOUNT_ID",
+          "KRUCIBLE_API_KEY_ID",
+          "KRUCIBLE_API_KEY_SECRET",
+          "KRUCIBLE_CLUSTER_NAME"
+        ],
+        "properties": {
+            "CODEFRESH_API_KEY": {
+                "type": "string",
+                "description": "API key for Codefresh"
+            },
+            "KRUCIBLE_ACCOUNT_ID": {
+                "type": "string",
+                "description": "ID of your Krucible account"
+            },
+            "KRUCIBLE_API_KEY_ID": {
+                "type": "string",
+                "description": "ID of your Krucible API key"
+            },
+            "KRUCIBLE_API_KEY_SECRET": {
+                "type": "string",
+                "description": "Secret of your Krucible API key"
+            },
+            "KRUCIBLE_CLUSTER_NAME": {
+                "type": "string",
+                "description": "Desired display name for the Krucible cluster"
+            },
+            "KRUCIBLE_CLUSTER_DURATION": {
+                "type": "integer",
+                "description": "Desired duration for the Krucible cluster. Omit for a permanent cluster."
+            },
+            "KRUCIBLE_SNAPSHOT_ID": {
+                "type": "string",
+                "description": "Desired Krucible snapshot to restore. Omit to create a fresh cluster."
+            }
+        }
+    }
+  steps:
+    main:
+      name: krucible/create-cluster
+      image: krucible/codefresh-create-cluster-step
+      commands:
+        - export CLUSTER_NAME=$(/home/codefresh-create-cluster-step)
+        - cf_export CLUSTER_NAME
+      environment:
+        "CODEFRESH_API_KEY=${{CODEFRESH_API_KEY}}"
+        "KRUCIBLE_ACCOUNT_ID=${{KRUCIBLE_ACCOUNT_ID}}"
+        "KRUCIBLE_API_KEY_ID=${{KRUCIBLE_API_KEY_ID}}"
+        "KRUCIBLE_API_KEY_SECRET=${{KRUCIBLE_API_KEY_SECRET}}"
+        "KRUCIBLE_CLUSTER_NAME=${{KRUCIBLE_CLUSTER_NAME}}"
+        "KRUCIBLE_CLUSTER_DURATION=${{KRUCIBLE_CLUSTER_DURATION}}"
+        "KRUCIBLE_SNAPSHOT_ID=${{KRUCIBLE_SNAPSHOT_ID}}"
+  returns: |-
+    {
+      "definitions": {},
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "additionalProperties": true,
+      "patterns": [],
+      "required": [
+        "CLUSTER_NAME"
+      ]
+      ,
+      "properties": {
+        "CLUSTER_NAME": {
+            "type": "string",
+            "description": "The name of the created cluster in Codefresh"
+        },
+      }
+    }
