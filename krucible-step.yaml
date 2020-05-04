@@ -19,7 +19,7 @@ metadata:
     url: https://usekrucible.com/krucible-logo.svg
     background: '#ffffff'
   latest: true
-  version: 1.0.1
+  version: 1.0.2
   examples:
     - description: example-1
       workflow:
