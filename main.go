@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/Krucible/krucible-go-client/krucible"
@@ -36,11 +35,6 @@ func main() {
 
 	clusterConfig := krucible.CreateClusterConfig{
 		DisplayName: getEnvVarOrDie("KRUCIBLE_CLUSTER_NAME"),
-	}
-
-	snapshotID := strings.TrimSpace(os.Getenv("KRUCIBLE_SNAPSHOT_ID"))
-	if snapshotID != "" {
-		clusterConfig.SnapshotID = snapshotID
 	}
 
 	clusterDurationString := os.Getenv("KRUCIBLE_CLUSTER_DURATION")

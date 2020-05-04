@@ -19,7 +19,29 @@ metadata:
     url: https://usekrucible.com/krucible-logo.svg
     background: '#ffffff'
   latest: true
-  version: 1.0.0
+  version: 1.0.1
+  examples:
+    - description: example-1
+      workflow:
+        version: '1.0'
+        steps:
+          create_cluster:
+            title: "Create Cluster"
+            type: "krucible/create-cluster"
+            arguments:
+              CODEFRESH_API_KEY: '${{CODEFRESH_API_KEY}}'
+              KRUCIBLE_ACCOUNT_ID: '${{KRUCIBLE_ACCOUNT_ID}}'
+              KRUCIBLE_API_KEY_ID: '${{KRUCIBLE_API_KEY_ID}}'
+              KRUCIBLE_API_KEY_SECRET: '${{KRUCIBLE_API_KEY_SECRET}}'
+              KRUCIBLE_CLUSTER_NAME: 'my-live-cluster'
+          deploy:
+            type: helm
+            arguments:
+              action: install
+              chart_name: test_chart
+              release_name: first
+              helm_version: 3.0.1
+              kube_context: ${{CLUSTER_NAME}}
 spec:
   arguments: |-
     {
@@ -59,10 +81,6 @@ spec:
             "KRUCIBLE_CLUSTER_DURATION": {
                 "type": "integer",
                 "description": "Desired duration for the Krucible cluster. Omit for a permanent cluster."
-            },
-            "KRUCIBLE_SNAPSHOT_ID": {
-                "type": "string",
-                "description": "Desired Krucible snapshot to restore. Omit to create a fresh cluster."
             }
         }
     }
@@ -81,7 +99,6 @@ spec:
         - "KRUCIBLE_API_KEY_SECRET=${{KRUCIBLE_API_KEY_SECRET}}"
         - "KRUCIBLE_CLUSTER_NAME=${{KRUCIBLE_CLUSTER_NAME}}"
         - "KRUCIBLE_CLUSTER_DURATION=${{KRUCIBLE_CLUSTER_DURATION}}"
-        - "KRUCIBLE_SNAPSHOT_ID=${{KRUCIBLE_SNAPSHOT_ID}}"
 
       CODEFRESH_API_KEY: ${{CODEFRESH_API_KEY}}
       KRUCIBLE_ACCOUNT_ID: ${{KRUCIBLE_ACCOUNT_ID}}
