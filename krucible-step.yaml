@@ -4,22 +4,23 @@ metadata:
   name: krucible/create-cluster
   isPublic: true
   description: >-
-    The plugin creates a new Kubernetes cluster and adds it to your Codefresh account
+    Create a new Kubernetes cluster and add it to your Codefresh account. For more information see https://usekrucible.com.
   sources:
+    - 'https://usekrucible.com'
     - 'https://github.com/Krucible/codefresh-create-cluster-step'
   stage: incubating
   maintainers:
     - name: Ben Elgar
   categories:
     - deployment
-  official: false
-  tags: []
+    - featured
+  official: true
+  tags: ['kubernetes', 'kind', 'krucible', 'testing', 'development']
   icon:
     type: svg
     url: https://usekrucible.com/krucible-logo.svg
-    background: '#ffffff'
   latest: true
-  version: 1.0.2
+  version: 1.0.3
   examples:
     - description: example-1
       workflow:
@@ -99,13 +100,6 @@ spec:
         - "KRUCIBLE_API_KEY_SECRET=${{KRUCIBLE_API_KEY_SECRET}}"
         - "KRUCIBLE_CLUSTER_NAME=${{KRUCIBLE_CLUSTER_NAME}}"
         - "KRUCIBLE_CLUSTER_DURATION=${{KRUCIBLE_CLUSTER_DURATION}}"
-
-      CODEFRESH_API_KEY: ${{CODEFRESH_API_KEY}}
-      KRUCIBLE_ACCOUNT_ID: ${{KRUCIBLE_ACCOUNT_ID}}
-      KRUCIBLE_API_KEY_ID: ${{KRUCIBLE_API_KEY_ID}}
-      KRUCIBLE_API_KEY_SECRET: ${{KRUCIBLE_API_KEY_SECRET}}
-      KRUCIBLE_CLUSTER_NAME: my-codefresh-cluster
-      KRUCIBLE_CLUSTER_DURATION: 1
   returns: |-
     {
       "definitions": {},
