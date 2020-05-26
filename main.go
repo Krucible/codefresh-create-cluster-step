@@ -70,19 +70,14 @@ func main() {
 		}
 	}
 
-	secretName := string(serviceaccount.Secrets[0].Name)
-	namespace := serviceaccount.Namespace
-
-	secret, e := clientset.CoreV1().Secrets(namespace).Get(context.Background(), secretName, metav1.GetOptions{})
-	if e != nil {
-		message := fmt.Sprintf("Failed to get secrets with error:\n%s", e)
-		panic(message)
-	}
-
-	token := secret.Data["token"]
-
 	api := codefresh.NewCodefreshAPI("https://g.codefresh.io/", codefreshToken)
-	body, err := api.Create(cluster.ConnectionDetails.Server, cluster.ID, token, []byte(cluster.ConnectionDetails.CertificateAuthority), false)
+	body, err := api.Create(
+		cluster.ConnectionDetails.Server,
+		cluster.ID,
+		[]byte(cluster.ConnectionDetails.ClusterAuthToken),
+		[]byte(cluster.ConnectionDetails.CertificateAuthority),
+		false,
+	)
 	fmt.Fprintln(os.Stderr, string(body))
 	fmt.Print(cluster.ID)
 	if err != nil {
