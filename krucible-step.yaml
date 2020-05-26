@@ -20,7 +20,7 @@ metadata:
     type: svg
     url: https://usekrucible.com/krucible-logo.svg
   latest: true
-  version: 1.0.3
+  version: 1.0.4
   examples:
     - description: example-1
       workflow:
@@ -91,6 +91,8 @@ spec:
       image: krucible/codefresh-create-cluster-step
       commands:
         - CLUSTER_NAME=$(/home/codefresh-create-cluster-step)
+        - krucible set-config --account-id $KRUCIBLE_ACCOUNT_ID --api-key-id $KRUCIBLE_API_KEY_ID --api-key-secret $KRUCIBLE_API_KEY_SECRET
+        - krucible configure-kubectl $CLUSTER_NAME
         - export CLUSTER_NAME
         - cf_export CLUSTER_NAME
       environment:
